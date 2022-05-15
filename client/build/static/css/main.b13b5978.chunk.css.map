@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,WACG,YAAY,CACZ,gBACH","file":"main.b13b5978.chunk.css","sourcesContent":[".slide img{\n   height:450px;\n   object-fit:cover;\n}"]}
