@@ -9,7 +9,7 @@ export const getOrders = async (authtoken) =>
 
 export const changeStatus = async (orderId, orderStatus, authtoken) =>
   await axios.put(
-    `$/api/admin/order-status`,
+    `/api/admin/order-status`,
     { orderId, orderStatus },
     {
       headers: {
