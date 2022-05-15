@@ -96,7 +96,7 @@ const CheckoutPage=({})=>{
         }
 
         // creating a new order
-        const result = await axios.post(`${process.env.REACT_APP_BACKEND_API}/payment/order`,{coupon:couponApplied},{
+        const result = await axios.post(`/api/payment/order`,{coupon:couponApplied},{
             headers:{
                 token:user.token,
             }
