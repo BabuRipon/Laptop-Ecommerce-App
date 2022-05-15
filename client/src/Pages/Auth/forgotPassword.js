@@ -18,7 +18,7 @@ const ForgotPassword=({history})=>{
         e.preventDefault();
 
         const actionCodeSettings = {
-            url:`/login`,
+            url:`${process.env.REACT_APP_FORGOT_PASSWORD_URL}`,
             handleCodeInApp:true,
           };
 

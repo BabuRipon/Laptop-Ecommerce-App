@@ -12,7 +12,7 @@ const Register=()=>{
          e.preventDefault();
 
          var actionCodeSettings = {
-            url:`/register/complete`,
+            url:`${process.env.REACT_APP_REGISTER_REDIRECT_URL}`,
             handleCodeInApp:true,
           };
 
