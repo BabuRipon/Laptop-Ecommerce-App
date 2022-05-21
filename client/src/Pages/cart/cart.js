@@ -135,6 +135,24 @@ const CartPage=({history})=>{
        
     }
 
+    const saveCashOrderToDb = () => {
+        // console.log("cart", JSON.stringify(cart, null, 4));
+        dispatch({
+          type: "COD",
+          payload: true,
+        });
+        userCart(cart,user.token)
+        .then(res=>{
+         //    console.log(res.data);
+            if(res.data.ok){
+                history.push('/user/checkout');
+            }
+        })
+        .catch(err=>{
+            console.log('cart save err',err)
+        })
+      };
+
     const onEmptyCartHandler=()=>{
         console.log('emptyCart handler');
         EmptyCart(user.token)
@@ -253,15 +271,22 @@ const CartPage=({history})=>{
                  <h6>total = {cart.length ?getTotal():0}</h6>
                  <br />
                  {user ?
-                 <div className="row ">
-                    <span className="col-sm-5 btn btn-outline-info" style={{whiteSpace:'normal'}} onClick={saveCartToDb}> 
-                        proceed to checkout
-                    </span>
-                    <span 
-                    className="col-sm-5 btn btn-outline-info ml-5 d-flex justify-content-center align-items-center"
-                    onClick={onEmptyCartHandler}
-                    >Empty Cart</span>
-                </div>
+                 <>
+                    <div className="row ">
+                        <span className="col-sm-5 btn btn-outline-info" style={{whiteSpace:'normal'}} onClick={saveCartToDb}> 
+                            proceed to checkout
+                        </span>
+                        <span 
+                        className="col-sm-5 btn btn-outline-info ml-5 d-flex justify-content-center align-items-center"
+                        onClick={onEmptyCartHandler}
+                        >Empty Cart</span>
+                    </div>
+                    <div className='row'>
+                        <span className="col-sm-5 btn btn-outline-info" style={{whiteSpace:'normal'}} onClick={saveCashOrderToDb}> 
+                            Pay Cash On Delivery
+                        </span>
+                    </div>
+                 </>
                 :
                 <span className="btn btn-outline-info"> 
                     <Link to={{

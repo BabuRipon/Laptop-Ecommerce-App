@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
-import {applyDiscountCoupon, getUserCart, saveUserAdress, createOrder, EmptyCart} from '../../functions/user'
+import {applyDiscountCoupon, getUserCart, saveUserAdress, createOrder, EmptyCart,createCashOrderForUser} from '../../functions/user'
 import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css';
@@ -32,7 +32,7 @@ const CheckoutPage=({})=>{
     const [discountFailed,setDiscountFalied]=useState("");
     const [savedAddress,setSaveAddress]=useState(false);
 
-    const {user,coupon:couponApplied}=useSelector(state=>state);
+    const {user,coupon:couponApplied,cod}=useSelector(state=>state);
     const dispatch=useDispatch();
     const history=useHistory();
 
@@ -173,6 +173,42 @@ const CheckoutPage=({})=>{
         paymentObject.open();
     }
 
+    const createCashOrder = () => {
+        createCashOrderForUser(user.token, cod, couponApplied).then((res) => {
+          console.log("USER CASH ORDER CREATED RES ", res);
+          // empty cart from local storage
+          if (typeof window !== "undefined") localStorage.removeItem("cart");
+          // empty cart from redux
+          dispatch({
+              type: "ADD_TO_CART",
+              payload: [],
+            });
+            // reset coupon to false
+            dispatch({
+              type: "DISCOUNT_FOR_COUPON",
+              payload: {},
+            });
+          
+            dispatch({
+              type: "COD",
+              payload: false,
+            });
+            
+            // empty cart from database
+            EmptyCart(user.token);
+
+            // redirect
+            setTimeout(() => {
+              history.push("/user/history");
+            }, 1000);
+          
+        })
+        .catch(err=>{
+            console.log('cash on delivery error : ',err);
+        })
+
+      };
+
     return(
         <div className="container mt-3">
         <div className="row">
@@ -225,10 +261,18 @@ const CheckoutPage=({})=>{
              <div className="row">
      
                  <div className="col-md-6">
-                 <button className="btn btn-primary btn-outline" 
-                 disabled={!(adress && savedAddress)}
-                 onClick={displayRazorpay}
-                 >Place Order</button>
+                 {
+                    cod?
+                    <button className="btn btn-primary btn-outline" 
+                    disabled={!(adress && savedAddress)}
+                    onClick={createCashOrder}
+                    >Place Order</button>
+                    :
+                    <button className="btn btn-primary btn-outline" 
+                    disabled={!(adress && savedAddress)}
+                    onClick={displayRazorpay}
+                    >Place Order</button>
+                 }
                  </div>
                  
              </div>

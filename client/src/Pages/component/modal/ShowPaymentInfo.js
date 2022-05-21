@@ -17,7 +17,10 @@ const ShowPaymentInfo = ({ order, showStatus = true }) =>{
         {" / "}
         <span>
           Orderd on : 
-          {order.paymentResponse.created_at?new Date(order.paymentResponse.created_at * 1000).toLocaleString():'NA'}
+          {order.paymentResponse.created_at?new Date(order.paymentResponse.created_at * 1000).toLocaleString():'NA'}/
+        </span>
+        <span className="badge bg-info text-white">
+          Payment Status : {order.paymentResponse.paymentStatus}
         </span>
         {" / "}
         <br />

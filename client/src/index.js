@@ -11,6 +11,7 @@ import SearchReducer from './redux/searchReducer';
 import CartReducer from './redux/cartReducer';
 import DrawerReducer from './redux/drawerReducer';
 import CouponReducer from './redux/couponReducer';
+import codReducer from './redux/codReducer';
 
 import { useEffect } from 'react';
 
@@ -34,6 +35,7 @@ const root=combineReducers({
   cart:CartReducer,
   drawer:DrawerReducer,
   coupon:CouponReducer,
+  cod:codReducer,
 })
 
 const store=createStore(root,composeWithDevTools());
